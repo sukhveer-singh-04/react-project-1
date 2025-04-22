@@ -1,0 +1,31 @@
+name: Deploy Vite React to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Trigger deploy on pushes to the 'main' branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest  # Use Ubuntu to run this job
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3  # Checkout your repo's code
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Set the Node version to use
+
+      - name: Install dependencies 📦
+        run: npm install  # Install your project dependencies
+
+      - name: Build project 🏗️
+        run: npm run build  # Build the production-ready app
+
+      - name: Deploy to GitHub Pages 🚀
+        uses: peaceiris/actions-gh-pages@v3  # Deploy to GitHub Pages
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Use GitHub token for authentication
+          publish_dir: ./dist  # The folder to publish (Vite's build output)
